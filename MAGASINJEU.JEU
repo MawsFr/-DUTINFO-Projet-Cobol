@@ -1,0 +1,10 @@
+                                            UNIQUE
+                R JEU
+                  REF           10A
+                  NOMJEU        30A
+                  PRIVENTE       5S
+                  PRIACHAT       5S
+                  DATESORTI      8A
+                  QTITENEUVE    18S
+                  QTITEOCCAS    18S
+                K REF

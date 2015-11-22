@@ -1,0 +1,116 @@
+     A*%%TS  SD  20131212  093547  NEZZARIM    REL-V6R1M0  5761-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A          R MENU
+     A*%%TS  SD  20131128  111735  DEBEFFEP    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 33'MAGASIN DE JEUX'
+     A                                  1 69DATE
+     A                                      EDTCDE(Y)
+     A                                  2 69SYSNAME
+     A                                  3 69USER
+     A                                  7 24'1-Gestion des catégories'
+     A                                  8 24'2-Gestion des titres'
+     A                                  9 24'3-Gestion des articles'
+     A                                 10 24'4-Gestion des fournisseurs'
+     A                                 11 24'5-Gestion des clients'
+     A                                 12 24'6-Gestion des achats/ventes'
+     A                                 13 24'7-Gestion des précommandes'
+     A                                 14 24'8-Gestion des stocks'
+     A                                 16 24'99-Quitter le logiciel'
+     A            CHOIX          1A  B 18 24
+     A                                 18 26'<-- CHOIX'
+     A          R AJOUTFRS
+     A*%%TS  SD  20131212  091518  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 31'AJOUTER FOURNISSEURS'
+     A                                      COLOR(WHT)
+     A                                  6 25'NOM:'
+     A                                  7 21'ADRESSE:'
+     A                                  8 26'CP:'
+     A                                  9 23'VILLE:'
+     A                                 11 22'REMISE:'
+     A                                 11 36'%'
+     A                                  5 20'REFFOURN:'
+     A            REFFOURN  R        B  5 30REFFLD(FOURN/REFFOURN *LIBL/FOURN)
+     A            NOM       R        B  6 30REFFLD(FOURN/NOM *LIBL/FOURN)
+     A            ADRESSE   R        B  7 30REFFLD(FOURN/ADRESSE *LIBL/FOURN)
+     A            CP        R        B  8 30REFFLD(FOURN/CP *LIBL/FOURN)
+     A            VILLE     R        B  9 30REFFLD(FOURN/VILLE *LIBL/FOURN)
+     A            REMISE    R        B 11 30REFFLD(FOURN/REMISE *LIBL/FOURN)
+     A          R GESTIONFRS
+     A*%%TS  SD  20131207  154012  DEBEFFEP    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 33'GESTION DES FRS'
+     A                                      COLOR(WHT)
+     A                                  4 29'1-ajouter un fournisseur'
+     A                                  6 29'3-modifier un fournisseur'
+     A                                  7 29'4-supprimer un fournisseur'
+     A                                  5 29'2-rechercher un fournisseur'
+     A            CHOIX          1A  B 12 29
+     A                                 12 32'<--CHOIX'
+     A                                 10 29'9-quitter'
+     A                                  8 29'5-lister les fournisseurs'
+     A          R AFFICHFRS
+     A*%%TS  SD  20131212  091518  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  4 18'REFFOURN:'
+     A                                  1 38'UN FOURNISSEUR'
+     A                                      COLOR(WHT)
+     A            TFRS          10A  O  1 26COLOR(WHT)
+     A            REFFOURN  R        B  4 28REFFLD(FOURN/REFFOURN NEZZARIM/FOUR-
+     A                                      N)
+     A          R DISPFRS
+     A*%%TS  SD  20131212  091518  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      OVERLAY
+     A                                      PROTECT
+     A                                  8 23'NOM:'
+     A                                  9 19'ADRESSE:'
+     A                                 10 24'CP:'
+     A                                 11 21'VILLE:'
+     A                                 12 20'REMISE:'
+     A            NOM       R        B  8 28REFFLD(FOURN/NOM NEZZARIM/FOURN)
+     A            ADRESSE   R        B  9 28REFFLD(FOURN/ADRESSE NEZZARIM/FOURN)
+     A            CP        R        B 10 28REFFLD(FOURN/CP NEZZARIM/FOURN)
+     A            VILLE     R        B 11 28REFFLD(FOURN/VILLE NEZZARIM/FOURN)
+     A            REMISE    R        B 12 28REFFLD(FOURN/REMISE NEZZARIM/FOURN)
+     A                                 12 33'%'
+     A          R SUPPFRS
+     A*%%TS  SD  20131207  174500  DEBEFFEP    REL-V6R1M0  5761-WDS
+     A                                      OVERLAY
+     A                                      PROTECT
+     A                                 17 10'Voulez-vous vraiment supprimer ce -
+     A                                      fournisseurs ?'
+     A            YESNO          1A  B 17 59
+     A          R LISTFRS
+     A*%%TS  SD  20131212  093547  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      LOCK
+     A                                  6 36'nom'
+     A                                      COLOR(BLU)
+     A                                  6 54'remise'
+     A                                      COLOR(BLU)
+     A            NOM       R        B  8 36REFFLD(FOURN/NOM NEZZARIM/FOURN)
+     A            REMISE    R        B  8 54REFFLD(FOURN/REMISE NEZZARIM/FOURN)
+     A                                  8 59'%'
+     A            REFFOURN1 R        B  8 23REFFLD(FOURN/REFFOURN NEZZARIM/FOUR-
+     A                                      N)
+     A                                  6 23'reference'
+     A                                      COLOR(BLU)
+     A            REFFOURN2     10A  B  9 23
+     A            REFFOURN3     10A  B 10 23
+     A            REFFOURN4     10A  B 11 23
+     A            REFFOURN5     10A  B 12 23
+     A            FLD005        15A  B  9 36
+     A            FLD006        15A  B 10 36
+     A            FLD007        15A  B 11 36
+     A            FLD008        15A  B 12 36
+     A            FLD009         3S 0B  9 54
+     A            FLD010         3S 0B 10 54
+     A            FLD011         3S 0B 11 54
+     A            FLD012         3S 0B 12 54
+     A                                  9 59'%'
+     A                                 10 59'%'
+     A                                 11 59'%'
+     A                                 12 59'%'

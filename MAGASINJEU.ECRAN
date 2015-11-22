@@ -1,0 +1,164 @@
+     A*%%TS  SD  20131215  155712  NEZZARIM    REL-V6R1M0  5761-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A          R MCATEGORIE
+     A*%%TS  SD  20131123  215425  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      OVERLAY
+     A                                  1 29'Gestion categorie'
+     A                                  8 23'1. Creer une categorie'
+     A                                  9 23'2. Rechercher une categorie'
+     A                                 10 23'3. Modifier une categorie'
+     A                                 11 23'4. Supprimer une categorie'
+     A                                 14 36'Choix :'
+     A            CHOIXMCAT      1S 0B 14 44
+     A          R MCMCAT
+     A*%%TS  SD  20131121  113932  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                  1 32'Creer une categorie'
+     A                                  8 23'IDCAT:'
+     A            IDCAT     R        B  8 30REFFLD(CATEGORIE/IDCAT NEZZARIM/CAT-
+     A                                      EGORIE)
+     A                                  9 25'NOM:'
+     A            NOM       R        B  9 30REFFLD(CATEGORIE/NOM NEZZARIM/CATEG-
+     A                                      ORIE)
+     A          R ERREUR
+     A*%%TS  SD  20131215  155712  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      CF04
+     A                                      OVERLAY
+     A                                      PUTRETAIN
+     A                                      PROTECT
+     A            MSGERREUR     57A  O 23  3COLOR(RED)
+     A            CHERREUR       1A  B 23 63DSPATR(ND)
+     A          R MPRECOMMAN
+     A*%%TS  SD  20131208  212218  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 33'Menu Precommande'
+     A                                  8 25'1. Enregistrer une precommande'
+     A                                  9 25'2. Rechercher une precommande'
+     A                                 12 25'9. Revenir au menu principal'
+     A            CHOIXMPREC     1S 0B 15 25
+     A                                 15 29'<==CHOIX'
+     A          R MCPRECOMM
+     A*%%TS  SD  20131208  180341  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 23'Menu Cr{er/Modifier une pr{command-
+     A                                      e'
+     A                                  8  6'REFERENCE ARTICLE:'
+     A            REFPRECOMMR        B  4 25REFFLD(PRECOMMAND/REFPRECOMM NEZZAR-
+     A                                      IM/PRECOMMAND)
+     A                                      CHECK(MF)
+     A            REFARTICLER        B  8 25REFFLD(PRECOMMAND/REFARTICLE NEZZAR-
+     A                                      IM/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 12  7'REFERENCE CLIENT:'
+     A            REFCLIENT R        B 12 25REFFLD(PRECOMMAND/REFCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                 13 20'NOM:'
+     A            NOMCLIENT R        B 13 25REFFLD(PRECOMMAND/NOMCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                      CHECK(MF)
+     A            PRENCLIENTR        B 14 25REFFLD(PRECOMMAND/PRENCLIENT NEZZAR-
+     A                                      IM/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 15 16'ADRESSE:'
+     A            ADRCLIENT R        B 15 25REFFLD(PRECOMMAND/ADRCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 16 12'CODE POSTAL:'
+     A            CPCLIENT  R        B 16 25REFFLD(PRECOMMAND/CPCLIENT NEZZARIM-
+     A                                      /PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 17 18'VILLE:'
+     A            VILCLIENT R        B 17 25REFFLD(PRECOMMAND/VILCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                  6 34'INFO ARTICLE:'
+     A                                      DSPATR(UL)
+     A                                      COLOR(BLU)
+     A                                 10 35'INFO CLIENT:'
+     A                                      DSPATR(UL)
+     A                                      COLOR(BLU)
+     A                                 14 17'PRENOM:'
+     A                                  4  2'REFERENCE PRECOMMANDE:'
+     A          R MRPRECOMMA
+     A*%%TS  SD  20131208  180341  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 30'Rechercher une pr{commande:'
+     A                                  4  2'REFERENCE PRECOMMANDE:'
+     A            REFPRECOMM    10A  B  4 25
+     A          R MMPRECOMM
+     A*%%TS  SD  20131212  114440  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      CF04
+     A                                  8  6'REFERENCE ARTICLE:'
+     A            REFPRECOMMR        B  4 25REFFLD(PRECOMMAND/REFPRECOMM NEZZAR-
+     A                                      IM/PRECOMMAND)
+     A                                      DSPATR(PR)
+     A            REFARTICLER        B  8 25REFFLD(PRECOMMAND/REFARTICLE NEZZAR-
+     A                                      IM/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 12  7'REFERENCE CLIENT:'
+     A            REFCLIENT R        B 12 25REFFLD(PRECOMMAND/REFCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                 13 20'NOM:'
+     A            NOMCLIENT R        B 13 25REFFLD(PRECOMMAND/NOMCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                      CHECK(MF)
+     A            PRENCLIENTR        B 14 25REFFLD(PRECOMMAND/PRENCLIENT NEZZAR-
+     A                                      IM/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 15 16'ADRESSE:'
+     A            ADRCLIENT R        B 15 25REFFLD(PRECOMMAND/ADRCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 16 12'CODE POSTAL:'
+     A            CPCLIENT  R        B 16 25REFFLD(PRECOMMAND/CPCLIENT NEZZARIM-
+     A                                      /PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                 17 18'VILLE:'
+     A            VILCLIENT R        B 17 25REFFLD(PRECOMMAND/VILCLIENT NEZZARI-
+     A                                      M/PRECOMMAND)
+     A                                      CHECK(MF)
+     A                                  6 34'INFO ARTICLE:'
+     A                                      DSPATR(UL)
+     A                                      COLOR(BLU)
+     A                                 10 35'INFO CLIENT:'
+     A                                      DSPATR(UL)
+     A                                      COLOR(BLU)
+     A                                 14 17'PRENOM:'
+     A                                  4  2'REFERENCE PRECOMMANDE:'
+     A                                  1 29'Modifier une precommande'
+     A                                 21  9'F4. SUPPRIMER'
+     A                                      COLOR(BLU)
+     A          R MLOGINMDP
+     A*%%TS  SD  20131208  180341  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 32'Gestion magasin jeu'
+     A                                  9 25'LOGIN:'
+     A            LOGIN     R        B  9 33REFFLD(IDENTIFIAN/LOGIN NEZZARIM/ID-
+     A                                      ENTIFIAN)
+     A                                      CHECK(LC)
+     A                                 10 20'MOTDEPASSE:'
+     A            MOTDEPASSER        B 10 33REFFLD(IDENTIFIAN/MOTDEPASSE NEZZAR-
+     A                                      IM/IDENTIFIAN)
+     A                                      CHECK(LC)
+     A                                      DSPATR(ND)
+     A                                 20  8'F3.Quitter'
+     A                                      COLOR(BLU)
+     A          R MPRINCIPAL
+     A*%%TS  SD  20131208  180341  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 34'Menu Principal'
+     A                                      COLOR(BLU)
+     A                                  3 28'Gestion de magasin de jeu'
+     A                                      COLOR(BLU)
+     A                                  9 28'2. Gestion des articles'
+     A                                 12 28'4. Gestion des clients'
+     A                                 13 28'5. Gestion des fournisseurs'
+     A                                 14 28'6. Liste des achats/ventes'
+     A                                 10 28'3. Gestion des precommandes'
+     A                                 16 28'7. Gestion des stocks'
+     A                                  7 28'1. Recherchercher un article'
+     A                                 20 31'<=== CHOIX'
+     A            CHOIXMENU      1S 0B 20 28

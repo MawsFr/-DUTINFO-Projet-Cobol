@@ -1,0 +1,185 @@
+     A*%%TS  SD  20131219  104309  NEZZARIM    REL-V6R1M0  5761-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A          R MARTICLE
+     A*%%TS  SD  20131128  102640  MAR         REL-V6R1M0  5761-WDS
+     A                                  2 39'Menu'
+     A                                  5 30'1. Gestion des consoles'
+     A                                  6 30'2. Gestion des jeux'
+     A                                  7 30'3. Gestion des accessoires'
+     A            CHOIX          1S 0I 13 34
+     A                                 13 37'<------ choix  '
+     A          R MCCONSOLE
+     A*%%TS  SD  20131215  174325  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 34'Fiche console'
+     A                                  6 21'REF:'
+     A                                  7 21'NOM:'
+     A                                  8 20'PRIX:'
+     A                                  9 18'PACHAT:'
+     A                                 10 20'DATE:'
+     A                                 11 18'QNEUVE:'
+     A                                 12 19'QOCAS:'
+     A            REF       R        B  6 26REFFLD(CONSOLE/REF NEZZARIM/CONSOLE)
+     A            NOM       R        B  7 26REFFLD(CONSOLE/NOM NEZZARIM/CONSOLE)
+     A            PRIX      R        B  8 26REFFLD(CONSOLE/PRIX NEZZARIM/CONSOL-
+     A                                      E)
+     A            PACHAT    R        B  9 26REFFLD(CONSOLE/PACHAT NEZZARIM/CONS-
+     A                                      OLE)
+     A            QNEUVE    R        B 11 26REFFLD(CONSOLE/QNEUVE NEZZARIM/CONS-
+     A                                      OLE)
+     A            QOCCAS    R        B 12 26REFFLD(CONSOLE/QOCCAS NEZZARIM/CONS-
+     A                                      OLE)
+     A            DATESORTI R        B 10 26REFFLD(CONSOLE/DATESORTI NEZZARIM/C-
+     A                                      ONSOLE)
+     A          R MPACCESSOI
+     A*%%TS  SD  20131215  180950  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 33'menu accessoire '
+     A                                  6 29'1. Ajouter Accessoire'
+     A                                  7 29'2. Modifier/rechercher accessoire'
+     A                                  8 29'3. Revenir au menu principal'
+     A            CHOIX          1S 0B 11 29
+     A                                 11 32'<----choix'
+     A          R MPJEU
+     A*%%TS  SD  20131215  152908  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  2 37'Menu Jeu'
+     A                                  6 29'1.Ajouter Jeu'
+     A                                  7 29'2.Rechercher/modifier Jeu'
+     A                                  8 29'9.Revenir au menu precedent'
+     A            CHOIX          1S 0B 11 30
+     A                                 11 33'<----Choix'
+     A          R MCACCESSOI
+     A*%%TS  SD  20131215  180950  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 33'Menu Accessoire'
+     A                                  7 24'REF:'
+     A                                  8 24'NOM:'
+     A                                  9 23'PRIX:'
+     A                                 12 13'Quantite occas:'
+     A                                 11 13'Quantite neufs:'
+     A                                 10 15'Prix d achat:'
+     A            REF       R        B  7 29REFFLD(ACCESSOIRE/REF NEZZARIM/ACCE-
+     A                                      SSOIRE)
+     A            NOM       R        B  8 29REFFLD(ACCESSOIRE/NOM NEZZARIM/ACCE-
+     A                                      SSOIRE)
+     A            PRIX      R        B  9 29REFFLD(ACCESSOIRE/PRIX NEZZARIM/ACC-
+     A                                      ESSOIRE)
+     A            PACHAT    R        B 10 29REFFLD(ACCESSOIRE/PACHAT NEZZARIM/A-
+     A                                      CCESSOIRE)
+     A            QNEUVE    R        B 11 29REFFLD(ACCESSOIRE/QNEUVE NEZZARIM/A-
+     A                                      CCESSOIRE)
+     A            QOCCAS    R        B 12 29REFFLD(ACCESSOIRE/QOCCAS NEZZARIM/A-
+     A                                      CCESSOIRE)
+     A          R MCJEU
+     A*%%TS  SD  20131215  225434  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 36'Fiche Jeu'
+     A                                 10 31'REF:'
+     A                                 11 28'NOMJEU:'
+     A                                 12 26'PRIVENTE:'
+     A                                 13 26'PRIACHAT:'
+     A                                 14 25'DATESORTI:'
+     A                                 15 26'QTE neuf:'
+     A                                 16 26'QT Occas:'
+     A                                 22 14'F3 = Quitter'
+     A                                      COLOR(BLU)
+     A            REF       R        B 10 36REFFLD(JEU/REF NEZZARIM/JEU)
+     A            NOMJEU    R        B 11 36REFFLD(JEU/NOMJEU NEZZARIM/JEU)
+     A            PRIVENTE  R        B 12 36REFFLD(JEU/PRIVENTE NEZZARIM/JEU)
+     A            PRIACHAT  R        B 13 36REFFLD(JEU/PRIACHAT NEZZARIM/JEU)
+     A            DATESORTI R        B 14 36REFFLD(JEU/DATESORTI NEZZARIM/JEU)
+     A            QTITENEUVER        B 15 36REFFLD(JEU/QTITENEUVE NEZZARIM/JEU)
+     A            QTITEOCCASR        B 16 36REFFLD(JEU/QTITEOCCAS NEZZARIM/JEU)
+     A          R MPCONSOLE
+     A*%%TS  SD  20131215  174439  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                  1 35'Menu Console'
+     A                                  8 30'1. Ajouter Console'
+     A                                  9 30'2. Rechercher/Modifier Console'
+     A                                 11 30'9. Menu Precedent'
+     A            CHOIX          1S 0B 13 30
+     A                                 13 34'<---Choix'
+     A                                 22 14'F3 = Quitter'
+     A                                      COLOR(BLU)
+     A          R ERREUR
+     A*%%TS  SD  20131215  160925  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      OVERLAY
+     A                                      PUTRETAIN
+     A                                      PROTECT
+     A            MSGERREUR     57A  O 23  4COLOR(RED)
+     A            FLD002         1S 0B 23 64DSPATR(ND)
+     A          R MRECHERCHE
+     A*%%TS  SD  20131216  140105  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                  7 21'Reference article :'
+     A            REF           10A  B  7 43
+     A          R MMJEU
+     A*%%TS  SD  20131219  104309  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      CF04
+     A                                  1 36'Fiche Jeu'
+     A                                 10 31'REF:'
+     A                                 11 28'NOMJEU:'
+     A                                 12 26'PRIVENTE:'
+     A                                 13 26'PRIACHAT:'
+     A                                 14 25'DATESORTI:'
+     A                                 15 26'QTE neuf:'
+     A                                 16 26'QT Occas:'
+     A                                 22 14'F3 = Quitter'
+     A                                      COLOR(BLU)
+     A            REF       R        B 10 36REFFLD(JEU/REF NEZZARIM/JEU)
+     A            NOMJEU    R        B 11 36REFFLD(JEU/NOMJEU NEZZARIM/JEU)
+     A            PRIVENTE  R        B 12 36REFFLD(JEU/PRIVENTE NEZZARIM/JEU)
+     A            PRIACHAT  R        B 13 36REFFLD(JEU/PRIACHAT NEZZARIM/JEU)
+     A            DATESORTI R        B 14 36REFFLD(JEU/DATESORTI NEZZARIM/JEU)
+     A            QTITENEUVER        B 15 36REFFLD(JEU/QTITENEUVE NEZZARIM/JEU)
+     A            QTITEOCCASR        B 16 36REFFLD(JEU/QTITEOCCAS NEZZARIM/JEU)
+     A          R MMCONSOLE
+     A*%%TS  SD  20131219  104309  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      CF04
+     A                                  1 34'Fiche console'
+     A                                  6 21'REF:'
+     A                                  7 21'NOM:'
+     A                                  8 20'PRIX:'
+     A                                  9 18'PACHAT:'
+     A                                 10 20'DATE:'
+     A                                 11 18'QNEUVE:'
+     A                                 12 19'QOCAS:'
+     A            REF       R        B  6 26REFFLD(CONSOLE/REF NEZZARIM/CONSOLE)
+     A            NOM       R        B  7 26REFFLD(CONSOLE/NOM NEZZARIM/CONSOLE)
+     A            PRIX      R        B  8 26REFFLD(CONSOLE/PRIX NEZZARIM/CONSOL-
+     A                                      E)
+     A            PACHAT    R        B  9 26REFFLD(CONSOLE/PACHAT NEZZARIM/CONS-
+     A                                      OLE)
+     A            QNEUVE    R        B 11 26REFFLD(CONSOLE/QNEUVE NEZZARIM/CONS-
+     A                                      OLE)
+     A            QOCCAS    R        B 12 26REFFLD(CONSOLE/QOCCAS NEZZARIM/CONS-
+     A                                      OLE)
+     A            DATESORTI R        B 10 26REFFLD(CONSOLE/DATESORTI NEZZARIM/C-
+     A                                      ONSOLE)
+     A          R MMACCESSOI
+     A*%%TS  SD  20131219  104309  NEZZARIM    REL-V6R1M0  5761-WDS
+     A                                      CF03
+     A                                      CF04
+     A                                  1 33'Menu Accessoire'
+     A                                  7 24'REF:'
+     A                                  8 24'NOM:'
+     A                                  9 23'PRIX:'
+     A                                 12 13'Quantite occas:'
+     A                                 11 13'Quantite neufs:'
+     A                                 10 15'Prix d achat:'
+     A            REF       R        B  7 29REFFLD(ACCESSOIRE/REF NEZZARIM/ACCE-
+     A                                      SSOIRE)
+     A            NOM       R        B  8 29REFFLD(ACCESSOIRE/NOM NEZZARIM/ACCE-
+     A                                      SSOIRE)
+     A            PRIX      R        B  9 29REFFLD(ACCESSOIRE/PRIX NEZZARIM/ACC-
+     A                                      ESSOIRE)
+     A            PACHAT    R        B 10 29REFFLD(ACCESSOIRE/PACHAT NEZZARIM/A-
+     A                                      CCESSOIRE)
+     A            QNEUVE    R        B 11 29REFFLD(ACCESSOIRE/QNEUVE NEZZARIM/A-
+     A                                      CCESSOIRE)
+     A            QOCCAS    R        B 12 29REFFLD(ACCESSOIRE/QOCCAS NEZZARIM/A-
+     A                                      CCESSOIRE)

@@ -1,0 +1,10 @@
+                                            UNIQUE
+                R CONSOLE
+                  REF           10A
+                  NOM           10A
+                  PRIX           5S
+                  PACHAT         5S
+                  DATESORTI      8A
+                  QNEUVE        18S
+                  QOCCAS        18S
+                K REF

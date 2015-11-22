@@ -1,0 +1,61 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PMENUPRINC.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT F-ECRAN ASSIGN TO WORKSTATION-ECRAN
+           ORGANIZATION TRANSACTION
+           CONTROL-AREA VAR.
+       DATA DIVISION.
+       FILE SECTION.
+       FD F-ECRAN.
+       01 E-ECRAN.
+       COPY DDS-ALL-FORMATS OF ECRAN.
+       WORKING-STORAGE SECTION.
+       01 VAR      PIC XX.
+        88 F3 VALUE "03".
+       77 FINPROGRAMME    PIC 9 VALUE 0.
+       PROCEDURE DIVISION.
+       DEBUT.
+           OPEN I-O F-ECRAN.
+           MOVE 0 TO FINPROGRAMME.
+           PERFORM UNTIL FINPROGRAMME = 1
+           IF FINPROGRAMME = 0
+            PERFORM AFFICHMENU
+           END-IF
+           END-PERFORM.
+           CLOSE F-ECRAN.
+           GOBACK.
+       AFFICHMENU.
+           INITIALIZE CHOIXMENU
+           PERFORM UNTIL (CHOIXMENU OF E-ECRAN > 0
+           AND CHOIXMENU OF E-ECRAN < 7)
+           OR FINPROGRAMME = 1
+           IF FINPROGRAMME = 0
+            WRITE E-ECRAN FORMAT 'MPRINCIPAL' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            EVALUATE CHOIXMENU
+             WHEN 3
+      *       MOVE 'MENU PRECOMMANDE APPELE' TO MSGERREUR
+      *       PERFORM AFFICHERREUR
+              CALL 'PPRECOMMAN'
+             WHEN 5
+              CALL 'PFOURN'
+             WHEN OTHER
+             MOVE 'CE MENU N''A PAS ENCORE ETE IMPLEMENTE' TO MSGERREUR
+             PERFORM AFFICHERREUR
+            END-EVALUATE
+            END-IF
+           END-PERFORM.
+       AFFICHERREUR.
+           IF FINPROGRAMME = 0
+            WRITE E-ECRAN FORMAT 'ERREUR' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            INITIALIZE MSGERREUR
+           END-IF.
+       TF.
+           IF F3
+            MOVE 1 TO FINPROGRAMME
+           END-IF.

@@ -1,0 +1,206 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PGESTJEU.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT F-ECRAN ASSIGN TO WORKSTATION-MAGJEUFF
+             ORGANIZATION TRANSACTION
+             CONTROL-AREA VAR.
+           SELECT F-JEU ASSIGN TO DATABASE-JEU
+             ORGANIZATION INDEXED ACCESS DYNAMIC
+             RECORD KEY REF OF E-JEU.
+       DATA DIVISION.
+       FILE SECTION.
+       FD F-ECRAN.
+       01 E-ECRAN.
+       COPY DDS-ALL-FORMATS OF MAGJEUFF.
+       FD F-JEU.
+       01 E-JEU.
+       COPY DDS-JEU OF JEU.
+       WORKING-STORAGE SECTION.
+       01 VAR      PIC XX.
+        88 F3 VALUE "03".
+       77 FINPROGRAMME    PIC 9 VALUE 0.
+       77 INFOVALID       PIC 9 VALUE 1.
+       77 TROUVE          PIC 9 VALUE 1.
+       PROCEDURE DIVISION.
+       DEBUT.
+           OPEN I-O F-ECRAN
+           MOVE 0 TO FINPROGRAMME.
+           PERFORM UNTIL FINPROGRAMME = 1
+            IF FINPROGRAMME = 0
+             PERFORM AFFICHMENU
+            END-IF
+           END-PERFORM.
+           CLOSE F-ECRAN.
+           GOBACK.
+       AFFICHMENU.
+           INITIALIZE CHOIX OF MPJEU
+           PERFORM UNTIL (CHOIX OF MPJEU > 0
+           AND CHOIX OF MPJEU < 3)
+           OR CHOIX OF MPJEU = 9
+           OR FINPROGRAMME = 1
+           IF FINPROGRAMME = 0
+            WRITE E-ECRAN FORMAT 'MPJEU' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            EVALUATE CHOIX OF MPJEU
+             WHEN 1
+              PERFORM AJOUTERJEU
+             WHEN 2
+              PERFORM RECHERCHERJEU
+             WHEN 9
+              MOVE 1 TO FINPROGRAMME
+             WHEN OTHER
+              MOVE 'CE MENU N''EXISTE PAS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-EVALUATE
+            INITIALIZE CHOIX OF MPJEU
+            END-IF
+           END-PERFORM.
+       AJOUTERJEU.
+           INITIALIZE E-ECRAN
+           MOVE 1 TO INFOVALID
+           MOVE 0 TO PRIVENTE OF MCJEU
+           MOVE 0 TO PRIACHAT OF MCJEU
+           MOVE 0 TO QTITENEUVE OF MCJEU
+           MOVE 0 TO QTITEOCCAS OF MCJEU
+
+            WRITE E-ECRAN FORMAT 'MCJEU' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            IF REF OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF NOMJEU OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PRIVENTE OF MCJEU < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PRIACHAT OF MCJEU < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF DATESORTI OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QTITENEUVE OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QTITEOCCAS OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+
+           IF INFOVALID = 0
+            MOVE 'REMPLISSEZ TOUS LES CHAMPS !' TO MSGERREUR
+            PERFORM AFFICHERREUR
+           ELSE
+            OPEN I-O F-JEU
+            MOVE MCJEU TO JEU
+            WRITE E-JEU
+             INVALID KEY
+              MOVE 'L''ENREGISTREMENT EXISTE DEJA' TO MSGERREUR
+              PERFORM AFFICHERREUR
+             NOT INVALID KEY
+              MOVE 'L''ENREGISTREMENT S''EST BIEN DEROULE' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-WRITE
+            INITIALIZE E-JEU
+            CLOSE F-JEU
+           END-IF.
+       RECHERCHERJEU.
+           INITIALIZE E-ECRAN
+           WRITE E-ECRAN FORMAT 'MRECHERCHE' END-WRITE
+           READ F-ECRAN END-READ
+           IF REF OF MRECHERCHE NOT = ALL SPACES
+            OPEN I-O F-JEU
+            MOVE REF OF MRECHERCHE TO REF OF JEU
+            MOVE 1 TO TROUVE
+            READ F-JEU
+             INVALID KEY
+              MOVE 0 TO TROUVE
+              MOVE 'LA CLE N''EXISTE PAS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-READ
+            IF TROUVE = 1
+             MOVE JEU TO MMJEU
+             PERFORM MODIFIERJEU
+            END-IF
+            CLOSE F-JEU
+            ELSE
+             MOVE 'VOUS DEVEZ ENTRER UNE REFERENCE' TO MSGERREUR
+             PERFORM AFFICHERREUR
+            END-IF.
+       MODIFIERJEU. 
+           INITIALIZE E-ECRAN
+           WRITE E-ECRAN FORMAT 'MMJEU' END-WRITE
+           READ F-ECRAN END-READ
+           PERFORM TF
+           IF F4
+            PERFORM SUPPRIMERJEU
+           ELSE
+            MOVE 1 TO INFOVALID
+            IF REF OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF NOMJEU OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PRIVENTE OF MCJEU < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PRIACHAT OF MCJEU < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF DATESORTI OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QTITENEUVE OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QTITEOCCAS OF MCJEU = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+           
+           IF INFOVALID = 0
+            MOVE 'IL Y A UNE ERREUR' TO MSGERREUR
+            PERFORM AFFICHERREUR
+           ELSE
+            OPEN I-O F-JEU
+            MOVE MMJEU TO JEU
+            REWRITE E-JEU
+             INVALID KEY
+              MOVE 'L''ENREGISTREMENT N''EXISTE PLUS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+             NOT INVALID KEY
+              MOVE 'LA MODIF S''EST BIEN DEROULE' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-REWRITE
+           END-IF
+           INITIALIZE E-JEU
+           END-IF
+           INITIALIZE E-ECRAN.
+       SUPPRIMERJEU.
+           MOVE 'ETES VOUS SUR DE VOULOIR SUPPRIMER ?' TO MSGERREUR
+           PERFORM AFFICHERREUR
+           IF F4
+            DELETE F-JEU
+             INVALID KEY
+              MOVE 'L''ENREGISTREMENT N''EXISTE PLUS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+             NOT INVALID KEY
+              MOVE 'L''ENREGISTREMENT A BIEN ETE SUPPRIME' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-DELETE
+           END-IF.
+       AFFICHERREUR.
+           IF FINPROGRAMME = 0
+            WRITE E-ECRAN FORMAT 'ERREUR' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            INITIALIZE MSGERREUR
+           END-IF.
+       TF.
+           IF F3
+            MOVE 1 TO FINPROGRAMME
+           END-IF.

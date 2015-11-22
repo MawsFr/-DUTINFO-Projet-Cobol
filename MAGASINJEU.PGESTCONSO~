@@ -1,0 +1,205 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PGESTCONSO.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT F-ECRAN ASSIGN TO WORKSTATION-MAGJEUFF
+             ORGANIZATION TRANSACTION
+             CONTROL-AREA VAR.
+           SELECT F-CONSOLE ASSIGN TO DATABASE-CONSOLE
+             ORGANIZATION INDEXED ACCESS DYNAMIC
+             RECORD KEY REF OF E-CONSOLE.
+       DATA DIVISION.
+       FILE SECTION.
+       FD F-ECRAN.
+       01 E-ECRAN.
+       COPY DDS-ALL-FORMATS OF MAGJEUFF.
+       FD F-CONSOLE.
+       01 E-CONSOLE.
+       COPY DDS-CONSOLE OF CONSOLE.
+       WORKING-STORAGE SECTION.
+       01 VAR      PIC XX.
+        88 F3 VALUE "03".
+       77 FINPROGRAMME    PIC 9 VALUE 0.
+       77 INFOVALID      PIC 9.
+       PROCEDURE DIVISION.
+       DEBUT.
+           OPEN I-O F-ECRAN
+           MOVE 0 TO FINPROGRAMME.
+           PERFORM UNTIL FINPROGRAMME = 1
+            IF FINPROGRAMME = 0
+             PERFORM AFFICHMENU
+            END-IF
+           END-PERFORM.
+           CLOSE F-ECRAN.
+           GOBACK.
+       AFFICHMENU.
+           INITIALIZE CHOIX OF MPCONSOLE
+           PERFORM UNTIL (CHOIX OF MPCONSOLE > 0
+           AND CHOIX OF MPCONSOLE < 3)
+           OR CHOIX OF MPCONSOLE = 9
+           OR FINPROGRAMME = 1
+           IF FINPROGRAMME = 0
+            WRITE E-ECRAN FORMAT 'MPCONSOLE' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            EVALUATE CHOIX OF MPCONSOLE
+             WHEN 1
+              PERFORM AJOUTERCONSOLE
+             WHEN 2
+              PERFORM RECHERCHERCONSOLE
+             WHEN 9
+              MOVE 1 TO FINPROGRAMME
+             WHEN OTHER
+              MOVE 'CE MENU N''EXISTE PAS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-EVALUATE
+            INITIALIZE CHOIX OF MPCONSOLE
+            END-IF
+           END-PERFORM.
+       AJOUTERCONSOLE.
+           INITIALIZE E-ECRAN
+           MOVE 1 TO INFOVALID
+           MOVE 0 TO PRIX OF MCCONSOLE
+           MOVE 0 TO PACHAT OF MCCONSOLE
+           MOVE 0 TO QNEUVE OF MCCONSOLE
+           MOVE 0 TO QOCCAS OF MCCONSOLE
+
+            WRITE E-ECRAN FORMAT 'MCCONSOLE' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            IF REF OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF NOM OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PRIX OF MCCONSOLE < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PACHAT OF MCCONSOLE < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF DATESORTI OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QNEUVE OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QOCCAS OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+
+           IF INFOVALID = 0
+            MOVE 'REMPLISSEZ TOUS LES CHAMPS !' TO MSGERREUR
+            PERFORM AFFICHERREUR
+           ELSE
+            OPEN I-O F-CONSOLE
+            MOVE MCCONSOLE TO CONSOLE
+            WRITE E-CONSOLE
+             INVALID KEY
+              MOVE 'L''ENREGISTREMENT EXISTE DEJA' TO MSGERREUR
+              PERFORM AFFICHERREUR
+             NOT INVALID KEY
+              MOVE 'L''ENREGISTREMENT S''EST BIEN DEROULE' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-WRITE
+            INITIALIZE E-CONSOLE
+            CLOSE F-CONSOLE
+           END-IF.
+       RECHERCHERCONSOLE.
+           INITIALIZE E-ECRAN
+           WRITE E-ECRAN FORMAT 'MRECHERCHE' END-WRITE
+           READ F-ECRAN END-READ
+           IF REF OF MRECHERCHE NOT = ALL SPACES
+            OPEN I-O F-CONSOLE
+            MOVE REF OF MRECHERCHE TO REF OF CONSOLE
+            MOVE 1 TO TROUVE
+            READ F-CONSOLE
+             INVALID KEY
+              MOVE 0 TO TROUVE
+              MOVE 'LA CLE N''EXISTE PAS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-READ
+            IF TROUVE = 1
+             MOVE CONSOLE TO MMCONSOLE
+             PERFORM MODIFIERCONSOLE
+            END-IF
+            CLOSE F-CONSOLE
+            ELSE
+             MOVE 'VOUS DEVEZ ENTRER UNE REFERENCE' TO MSGERREUR
+             PERFORM AFFICHERREUR
+            END-IF.
+       MODIFIERCONSOLE.
+           INITIALIZE E-ECRAN
+           WRITE E-ECRAN FORMAT 'MMCONSOLE' END-WRITE
+           READ F-ECRAN END-READ
+           PERFORM TF
+           IF F4
+            PERFORM SUPPRIMERCONSOLE
+           ELSE
+            MOVE 1 TO INFOVALID
+            IF REF OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF NOM OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PRIX OF MCCONSOLE < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF PACHAT OF MCCONSOLE < 0
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF DATESORTI OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QNEUVE OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            IF QOCCAS OF MCCONSOLE = ALL SPACES
+             MOVE 0 TO INFOVALID
+            END-IF
+            
+            IF INFOVALID = 0
+            MOVE 'IL Y A UNE ERREUR' TO MSGERREUR
+            PERFORM AFFICHERREUR
+           ELSE
+            OPEN I-O F-CONSOLE
+            MOVE MMCONSOLE TO CONSOLE
+            REWRITE E-CONSOLE
+             INVALID KEY
+              MOVE 'L''ENREGISTREMENT N''EXISTE PLUS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+             NOT INVALID KEY
+              MOVE 'LA MODIF S''EST BIEN DEROULE' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-REWRITE
+           END-IF
+           INITIALIZE E-CONSOLE
+           END-IF
+           INITIALIZE E-ECRAN.
+       SUPPRIMERCONSOLE.
+           MOVE 'ETES VOUS SUR DE VOULOIR SUPPRIMER ?' TO MSGERREUR
+           PERFORM AFFICHERREUR
+           IF F4
+            DELETE F-CONSOLE
+             INVALID KEY
+              MOVE 'L''ENREGISTREMENT N''EXISTE PLUS' TO MSGERREUR
+              PERFORM AFFICHERREUR
+             NOT INVALID KEY
+              MOVE 'L''ENREGISTREMENT A BIEN ETE SUPPRIME' TO MSGERREUR
+              PERFORM AFFICHERREUR
+            END-DELETE
+           END-IF.
+       AFFICHERREUR.
+           IF FINPROGRAMME = 0
+            WRITE E-ECRAN FORMAT 'ERREUR' END-WRITE
+            READ F-ECRAN END-READ
+            PERFORM TF
+            INITIALIZE MSGERREUR
+           END-IF.
+       TF.
+           IF F3
+            MOVE 1 TO FINPROGRAMME
+           END-IF.

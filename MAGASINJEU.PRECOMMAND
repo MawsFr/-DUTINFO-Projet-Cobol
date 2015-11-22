@@ -1,0 +1,11 @@
+                                            UNIQUE
+                R PRECOMMAND
+                  REFPRECOMM    10A
+                  REFARTICLE    10A
+                  REFCLIENT     10A
+                  NOMCLIENT     15A
+                  PRENCLIENT    15A
+                  ADRCLIENT     50A
+                  CPCLIENT       5S
+                  VILCLIENT     20A
+                K REFPRECOMM

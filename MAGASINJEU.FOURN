@@ -1,0 +1,9 @@
+                                            UNIQUE
+                R FOURN
+                  REFFOURN      10A
+                  NOM           15A
+                  ADRESSE       50A
+                  CP             5S
+                  VILLE         20A
+                  REMISE         3S
+                K REFFOURN

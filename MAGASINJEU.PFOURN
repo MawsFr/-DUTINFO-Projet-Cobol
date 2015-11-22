@@ -1,0 +1,204 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PTITRE.
+       ENVIRONMENT DIVISION.
+           SELECT F-FOURN ASSIGN TO DATABASE-FOURN
+           ORGANIZATION INDEXED ACCESS DYNAMIC
+           RECORD KEY IS REFFOURN.
+           SELECT F-ECRAN ASSIGN TO WORKSTATION-MAGJEUXFF
+           ORGANIZATION TRANSACTION
+           CONTROL-AREA TFONC.
+       DATA DIVISION.
+       FILE SECTION.
+       FD F-FOURN.
+       01 E-FOURN.
+       COPY DDS-FOURN OF FOURN.
+       FD F-ECRAN.
+       01 E-ECRAN.
+       COPY DDS-ALL-FORMATS OF MAGJEUXFF.
+       WORKING-STORAGE SECTION.
+       01 TABLEAU.
+       02 FOURNS OCCURS 5.
+        03 NOM PIC X(15).
+        03 REMISE PIC 999.
+       01 TFONC PIC XX.
+        88 F3 VALUE "03".
+       77 FIN PIC 9 VALUE 0.
+       77 ERREUR PIC 9 VALUE 0.
+       77 RETOUR PIC 9.
+       77 YESNO PIC X.
+       77 MODIF PIC X(10).
+       77 I PIC 99.
+       PROCEDURE DIVISION.
+       DEBUT.
+           OPEN I-O F-ECRAN.
+           PERFORM AFFMENUFOURN.
+           CLOSE F-ECRAN.
+           STOP RUN.
+       AFFMENUFOURN.
+           PERFORM UNTIL FIN = 1
+           MOVE 0 TO RETOUR
+           INITIALIZE GESTIONFRS
+           WRITE E-ECRAN FORMAT "GESTIONFRS"
+           END-WRITE
+           READ F-ECRAN
+           END-READ
+           IF F3
+            MOVE 1 TO FIN
+           END-IF
+           IF FIN = 0
+            EVALUATE CHOIX OF GESTIONFRS
+             WHEN "1"
+              PERFORM AJOUTFOURN
+             WHEN "2"
+              PERFORM RECHFOUR
+             WHEN "3"
+              PERFORM MODIFFOUR
+             WHEN "4"
+              PERFORM SUPPFOUR
+             WHEN "5"
+              PERFORM LISTFOURN
+             WHEN "9"
+              MOVE 1 TO FIN
+            END-EVALUATE
+           END-IF
+           END-PERFORM.
+       AJOUTFOURN.
+           OPEN I-O F-FOURN
+           INITIALIZE AJOUTFRS
+           WRITE E-ECRAN FORMAT "AJOUTFRS" END-WRITE
+           READ F-ECRAN END-READ
+           IF F3
+            MOVE 1 TO RETOUR
+           END-IF
+           IF RETOUR NOT = 1
+            MOVE REFERE OF AJOUTFRS TO REFFOURN OF E-FOURN
+            MOVE CORR AJOUTFRS TO FOURN
+            WRITE E-FOURN
+             INVALID KEY
+              DISPLAY "CETTE CLE EXISTE DEJA"
+            END-WRITE
+           END-IF
+           CLOSE F-FOURN.
+       RECHFOUR.
+           OPEN I-O F-FOURN
+           INITIALIZE AFFICHFRS-I
+           MOVE "RECHERCHER" TO TFRS
+           WRITE E-ECRAN FORMAT "AFFICHFRS" END-WRITE
+           READ F-ECRAN END-READ
+           IF F3
+            MOVE 1 TO RETOUR
+           END-IF
+           IF RETOUR NOT = 1
+            MOVE REFERE OF AFFICHFRS-I TO REFFOURN OF E-FOURN
+            MOVE 0 TO ERREUR
+            READ F-FOURN
+             INVALID KEY
+              MOVE 1 TO ERREUR
+              DISPLAY "CETTE CLE N'EXITE PAS"
+            END-READ
+            IF ERREUR = 0
+             INITIALIZE DISPFRS
+              MOVE CORR FOURN TO DISPFRS
+              WRITE E-ECRAN FORMAT "DISPFRS" END-WRITE
+              READ F-ECRAN END-READ
+            END-IF
+           END-IF
+           CLOSE F-FOURN.
+       SUPPFOUR.
+           OPEN I-O F-FOURN.
+           INITIALIZE AFFICHFRS-I.
+           MOVE "SUPPRIMER" TO TFRS.
+           WRITE E-ECRAN FORMAT "AFFICHFRS" END-WRITE.
+           READ F-ECRAN END-READ.
+           IF F3
+            MOVE 1 TO RETOUR
+           END-IF.
+           IF RETOUR NOT = 1
+            MOVE REFERE OF AFFICHFRS-I TO REFFOURN OF E-FOURN
+            MOVE 0 TO ERREUR
+            READ F-FOURN
+             INVALID KEY
+              MOVE 1 TO ERREUR
+              DISPLAY "CETTE CLE N'EXITE PAS"
+            END-READ
+            IF ERREUR = 0
+             INITIALIZE DISPFRS
+              MOVE CORR FOURN TO DISPFRS
+              WRITE E-ECRAN FORMAT "DISPFRS" END-WRITE
+              READ F-ECRAN END-READ
+             INITIALIZE SUPPFRS
+              WRITE E-ECRAN FORMAT "SUPPFRS" END-WRITE
+              READ F-ECRAN END-READ
+              IF YESNO OF SUPPFRS = "O"
+               DELETE F-FOURN
+                INVALID KEY MOVE 1 TO ERREUR
+               END-DELETE
+              END-IF
+             END-IF
+            END-IF.
+            CLOSE F-FOURN.
+       MODIFFOUR.
+           OPEN I-O F-FOURN
+           INITIALIZE AFFICHFRS-I
+           MOVE "MODIFIER" TO TFRS.
+           WRITE E-ECRAN FORMAT "AFFICHFRS" END-WRITE
+           READ F-ECRAN END-READ
+           IF F3
+            MOVE 1 TO RETOUR
+           END-IF
+           IF RETOUR NOT = 1
+            MOVE REFERE OF AFFICHFRS-I TO REFFOURN OF E-FOURN
+            MOVE 0 TO ERREUR
+            READ F-FOURN
+             INVALID KEY
+              MOVE 1 TO ERREUR
+              DISPLAY "CETTE CLE N'EXITE PAS"
+            END-READ
+            MOVE REFFOURN TO MODIF
+            IF ERREUR = 0
+             INITIALIZE DISPFRS
+              MOVE CORR FOURN TO DISPFRS
+              WRITE E-ECRAN FORMAT "DISPFRS" END-WRITE
+              READ F-ECRAN END-READ
+              MOVE MODIF TO REFFOURN OF E-FOURN
+              MOVE CORR DISPFRS TO FOURN
+              REWRITE E-FOURN END-REWRITE
+            END-IF
+           END-IF
+           CLOSE F-FOURN.
+       LISTFOURN.
+           OPEN I-O F-FOURN
+           MOVE 0 TO RETOUR
+           MOVE 1 TO I
+           MOVE " " TO REFFOURN
+           START F-FOURN KEY >= REFFOURN OF FOURN
+            INVALID KEY DISPLAY "PAS DE FOURN"
+           END-START
+           PERFORM UNTIL RETOUR = 1
+            INITIALIZE TABLEAU
+            IF RETOUR = 2
+             MOVE 1 TO I
+             MOVE 0 TO RETOUR
+            END-IF
+            PERFORM UNTIL RETOUR > 0
+             READ F-FOURN NEXT
+              AT END MOVE 1 TO RETOUR
+             END-READ
+             IF RETOUR NOT = 1
+              MOVE CORR FOURN TO FOURNS(I)
+              ADD 1 TO I
+              IF I > 5
+               MOVE 2 TO RETOUR
+              END-IF
+             END-IF
+            END-PERFORM
+            INITIALIZE LISTFRS
+            MOVE TABLEAU TO LISTFRS
+            WRITE E-ECRAN FORMAT "LISTFRS"
+            END-WRITE
+            READ F-ECRAN END-READ
+            IF F3
+             MOVE 1 TO RETOUR
+            END-IF
+           END-PERFORM
+           CLOSE F-FOURN.
